@@ -131,4 +131,23 @@ module.exports = {
             next(err);
         }
     },
+
+    deleteUser: async (req, res, next) => {
+        const user = req.user;
+
+        try {
+            const email = user.email;
+            const { data }  = await api.put('/delete', {email}); // destruct the data for getting the status and data from the url
+
+            const deleted = data.data
+
+            return res.status(201).json({
+                status: true,
+                message: 'success deactivate user',
+                data: deleted
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
 }
