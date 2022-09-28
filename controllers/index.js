@@ -88,5 +88,23 @@ module.exports = {
             }
             next(err);
         }
-    }
+    },
+
+    // Get the user name and password from the middleware
+    userDetails: (req, res, next) => {
+        const user = req.user;
+
+        try {
+            return res.status(200).json({
+                status: false,
+                message: 'success',
+                data: {
+                    name: user.name,
+                    email: user.email
+                }
+            });
+        } catch (err) {
+            next(err);
+        }
+    },
 }
