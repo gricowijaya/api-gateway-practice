@@ -107,4 +107,28 @@ module.exports = {
             next(err);
         }
     },
+
+    updatePassword: async (req, res, next) => {
+        const user = req.user;
+
+        try {
+            const { old_password, new_password } = req.body;
+            const email = user.email;
+            const { data }  = await api.put('/update-password', {email, old_password, new_password }); // destruct the data for getting the status and data from the url
+
+            const updatedData = data.data
+
+            return res.status(201).json({
+                status: true,
+                message: 'success update password on user',
+                data: {
+                    name: user.name,
+                    email: user.email
+                }
+            });
+
+        } catch (err) {
+            next(err);
+        }
+    },
 }
